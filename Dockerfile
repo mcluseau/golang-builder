@@ -8,6 +8,7 @@ env CGO_ENABLED 0
 workdir /src
 
 onbuild arg GOPROXY
+onbuild arg GONOSUMDB
 onbuild add go.mod go.sum ./
 onbuild run go mod download
 
