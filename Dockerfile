@@ -16,5 +16,5 @@ onbuild run go mod download
 onbuild add . ./
 onbuild run go test ./...
 onbuild run set -ex; \
-    if grep -q '^package main *' *.go; then go install .; fi; \
-    if [ -d cmd ]; then go install ./cmd/...; fi
+    if grep -q '^package main *' *.go; then go install -trimpath .; fi; \
+    if [ -d cmd ]; then go install -trimpath ./cmd/...; fi
