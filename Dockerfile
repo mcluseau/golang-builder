@@ -4,10 +4,10 @@ run apk add --update \
   git openssh-client \
 # CGO builds need these:
   gcc musl-dev
-env CGO_ENABLED 0
 
 workdir /src
 
+onbuild arg CGO_ENABLED=0
 onbuild arg GOPROXY
 onbuild arg GONOSUMDB
 onbuild add go.mod go.sum ./
