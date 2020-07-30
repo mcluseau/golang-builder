@@ -1,5 +1,5 @@
 #! /bin/sh
-go_version=1.14.4
+go_version=1.14.6
 
 img=mcluseau/golang-builder:$go_version
 
