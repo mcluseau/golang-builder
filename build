@@ -1,7 +1,7 @@
 #! /bin/sh
-go_version=1.14.6
+go_version=1.15.0
 
 img=mcluseau/golang-builder:$go_version
 
-docker build -t $img --build-arg go_version=${go_version} . &&
+docker build --network host -t $img --build-arg go_version=${go_version} . &&
 docker push $img
