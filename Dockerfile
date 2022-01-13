@@ -1,5 +1,5 @@
 arg go_version
-from golang:${go_version}-alpine3.13
+from golang:${go_version}-alpine3.15
 run apk add --update \
   git openssh-client \
 # CGO builds need these:
