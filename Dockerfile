@@ -10,8 +10,11 @@ workdir /src
 onbuild arg CGO_ENABLED=0
 onbuild arg GOPROXY
 onbuild arg GONOSUMDB
+onbuild arg GOPRIVATE
+onbuild arg GOINSECURE
+
 onbuild add go.mod go.sum ./
-onbuild run go mod download
+onbuild run --mount=type=ssh go mod download
 
 onbuild add . ./
 onbuild run go test ./...
