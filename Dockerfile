@@ -12,10 +12,11 @@ onbuild arg GOPROXY
 onbuild arg GONOSUMDB
 onbuild arg GOPRIVATE
 onbuild arg GOINSECURE
+onbuild arg LDFLAGS
 
 onbuild add go.mod go.sum ./
 onbuild run --mount=type=ssh go mod download
 
 onbuild add . ./
 onbuild run go test ./...
-onbuild run go install -trimpath ./...
+onbuild run go install -ldflags "$LDFLAGS" -trimpath ./...
