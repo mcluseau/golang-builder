@@ -1,6 +1,6 @@
 arg go_version
 from golang:${go_version}-alpine3.19
-run apk add --update \
+run apk add --update --no-cache \
   git openssh-client \
 # CGO builds need these:
   gcc musl-dev
@@ -13,10 +13,21 @@ onbuild arg GONOSUMDB
 onbuild arg GOPRIVATE
 onbuild arg GOINSECURE
 onbuild arg LDFLAGS
+onbuild arg EXTRA_PKGS
 
-onbuild add go.mod go.sum ./
-onbuild run --mount=type=ssh go mod download
+onbuild run test "$EXTRA_PKGS" = "" || apk add --update --no-cache $EXTRA_PKGS
 
-onbuild add . ./
-onbuild run go test ./...
-onbuild run go install -ldflags "$LDFLAGS" -trimpath ./...
+onbuild copy go.mod go.sum ./
+onbuild run \
+  --mount=type=ssh \
+  --mount=type=cache,id=gomod,target=/go/pkg/mod \
+  --mount=type=cache,id=gobuild,target=/root/.cache/go-build \
+  go mod download
+
+onbuild copy . ./
+onbuild run \
+  --mount=type=cache,id=gomod,target=/go/pkg/mod \
+  --mount=type=cache,id=gobuild,target=/root/.cache/go-build \
+  go test ./... && \
+  go install -ldflags "$LDFLAGS" -trimpath ./...
+
