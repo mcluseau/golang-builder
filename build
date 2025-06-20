@@ -1,5 +1,5 @@
 #! /bin/sh
-go_version=1.24.2
+go_version=1.24.4
 
 tag=$go_version$suffix
 
