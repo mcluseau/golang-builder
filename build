@@ -1,5 +1,5 @@
 #! /bin/sh
-go_version=1.24.4
+go_version=1.25.3
 
 tag=$go_version$suffix
 
@@ -7,8 +7,7 @@ echo "*** building tag $tag"
 
 img=mcluseau/golang-builder:$tag
 
-docker build --network host -t $img --build-arg go_version=${go_version} . &&
-docker push $img
+docker build --push -t $img --build-arg go_version=${go_version} . &&
 
 sed -i "/^from/s/:.* as build/:$tag as build/" README.md
 

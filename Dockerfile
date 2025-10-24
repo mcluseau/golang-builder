@@ -1,4 +1,4 @@
-arg go_version
+arg go_version=latest
 from golang:${go_version}-alpine3.22
 run apk add --update --no-cache \
   git openssh-client \
